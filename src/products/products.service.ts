@@ -11,29 +11,6 @@ export class ProductsService {
     @InjectRepository(Product)
     private productRepository: Repository<Product>
   ){}
-  private products: CreateProductDto[]=[
-    {
-    id: uuid(),
-    productName: "Sabritas Limón",
-    price: 20,
-    countSeal: 3,
-    provider: uuid()
-    },
-    {
-    id: uuid(),
-    productName: "Chips Moradas",
-    price: 26,
-    countSeal: 2,
-    provider: uuid()
-    },
-    {
-    id: uuid(),
-    productName: "FuzTea",
-    price: 30,
-    countSeal: 3,
-    provider: uuid()
-    }
-  ]
   create(createProductDto: CreateProductDto) {
     const product = this.productRepository.save(createProductDto)
     return product;
@@ -52,9 +29,7 @@ export class ProductsService {
   }
 
   findByProvider(id: string){
-  const productsFound = this.products.filter((product)=>product.provider === id);
-  if(productsFound.length==0) throw new NotFoundException();
-  return productsFound;
+  return "OK"
 }
 
   async update(id: string, updateProductDto: UpdateProductDto){
