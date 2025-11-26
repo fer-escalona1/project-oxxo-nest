@@ -1,3 +1,4 @@
+import { NotFoundException } from '@nestjs/common';
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ProviderService } from './provider.service';
 import { CreateProviderDto } from './dto/create-provider.dto';
@@ -18,13 +19,20 @@ export class ProviderController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.providerService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const provider = await this.providerService.findOne(id);
+    if(!provider) throw new NotFoundException()
+        return provider
+  }
+
+  @Get('/name/:name')
+  findByName(@Param('name') name: string) {
+    return this.providerService.findOneByName(name);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProviderDto: UpdateProviderDto) {
-    return this.providerService.update(+id, updateProviderDto);
+    return this.providerService.update(id, updateProviderDto);
   }
 
   @Delete(':id')
